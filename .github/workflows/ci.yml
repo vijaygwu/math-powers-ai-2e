@@ -3,6 +3,8 @@ name: ci
 on:
   push:
   pull_request:
+  schedule:
+    - cron: "0 6 * * 1"  # weekly: catch QR link rot even without pushes
 
 jobs:
   test:
@@ -18,8 +20,25 @@ jobs:
       - name: Install
         run: pip install -e ".[capstone,dev]"
       - name: Property tests (the book's mathematical claims)
-        run: pytest -q
+        run: pytest -q tests
+      - name: Execute notebooks (import-from-package, offline)
+        run: pytest -q --nbmake notebooks
       - name: Regenerate output boxes and diff against committed canon
         run: |
           python examples/regenerate_outputs.py
           git diff --exit-code outputs/
+
+  qr-linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify every printed QR target resolves
+        run: |
+          status=0
+          while IFS= read -r url; do
+            case "$url" in ""|\#*) continue;; esac
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L "$url")
+            echo "$code  $url"
+            if [ "$code" != "200" ]; then status=1; fi
+          done < qr_links.txt
+          exit $status
