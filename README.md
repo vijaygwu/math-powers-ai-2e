@@ -63,8 +63,19 @@ and the code cannot silently disagree.
   parameter; examples seed it so outputs are reproducible.
 - Lines fit the book's 78-character listing width.
 
-## Editions
+## QR codes and editions
 
 This repo serves the 2nd edition. First-edition QR codes point at
 [math-powers-ai](https://github.com/vijaygwu/math-powers-ai), which is
 preserved unchanged. Tags `print-N` snapshot this repo at each printing.
+
+Second-edition QR codes print **redirect URLs** served from `docs/`
+via GitHub Pages (`vijaygwu.github.io/math-powers-ai-2e/chNN`), each a
+tiny `index.html` that forwards to the chapter notebook. Because the
+redirect pages live in this repo, a printed QR's destination remains
+editable forever: restructure the repo, edit one HTML file, every sold
+copy keeps working. `qr_links.txt` lists every printed target; CI
+checks them for liveness on each push and weekly.
+
+To activate: repo Settings -> Pages -> Source: `main` branch,
+`/docs` folder; then uncomment the 2e block in `qr_links.txt`.

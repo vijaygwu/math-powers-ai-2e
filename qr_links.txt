@@ -1,7 +1,9 @@
 # QR-code targets printed in "The Math That Powers AI".
-# CI checks these for liveness on every push: printed books scan to
-# these URLs forever, so they must never 404. First-edition targets
-# live in the math-powers-ai repo; do NOT rename those files there.
+# CI checks these for liveness on every push and weekly: printed books
+# scan to these URLs forever, so they must never 404.
+#
+# --- First edition (in print now; files live in math-powers-ai;
+#     do NOT rename them there) ---
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch01_linear_algebra.ipynb
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch02_probability.ipynb
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch03_calculus.ipynb
@@ -11,5 +13,18 @@ https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch06_svd_compress
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch07_vector_spaces.ipynb
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch08_numerical_methods.ipynb
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/capstone_pca.ipynb
-# Second-edition QR targets: add the 2e notebook URLs (or redirect
-# URLs) here when the 2e manuscript's \notebookqr links are set.
+#
+# --- Second edition (what the 2e manuscript's \notebookqr will print).
+#     These are GitHub Pages redirects served from docs/ in THIS repo,
+#     so their destinations stay editable forever after printing.
+#     UNCOMMENT after enabling Pages (repo Settings -> Pages ->
+#     Source: main branch, /docs folder) and pushing:
+# https://vijaygwu.github.io/math-powers-ai-2e/ch01
+# https://vijaygwu.github.io/math-powers-ai-2e/ch02
+# https://vijaygwu.github.io/math-powers-ai-2e/ch03
+# https://vijaygwu.github.io/math-powers-ai-2e/ch04
+# https://vijaygwu.github.io/math-powers-ai-2e/ch05
+# https://vijaygwu.github.io/math-powers-ai-2e/ch06
+# https://vijaygwu.github.io/math-powers-ai-2e/ch07
+# https://vijaygwu.github.io/math-powers-ai-2e/ch08
+# https://vijaygwu.github.io/math-powers-ai-2e/capstone
