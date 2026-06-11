@@ -14,17 +14,15 @@ https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch07_vector_space
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/ch08_numerical_methods.ipynb
 https://github.com/vijaygwu/math-powers-ai/blob/main/notebooks/capstone_pca.ipynb
 #
-# --- Second edition (what the 2e manuscript's \notebookqr will print).
-#     These are GitHub Pages redirects served from docs/ in THIS repo,
-#     so their destinations stay editable forever after printing.
-#     UNCOMMENT after enabling Pages (repo Settings -> Pages ->
-#     Source: main branch, /docs folder) and pushing:
-# https://vijaygwu.github.io/math-powers-ai-2e/ch01
-# https://vijaygwu.github.io/math-powers-ai-2e/ch02
-# https://vijaygwu.github.io/math-powers-ai-2e/ch03
-# https://vijaygwu.github.io/math-powers-ai-2e/ch04
-# https://vijaygwu.github.io/math-powers-ai-2e/ch05
-# https://vijaygwu.github.io/math-powers-ai-2e/ch06
-# https://vijaygwu.github.io/math-powers-ai-2e/ch07
-# https://vijaygwu.github.io/math-powers-ai-2e/ch08
-# https://vijaygwu.github.io/math-powers-ai-2e/capstone
+# --- Second edition (printed by the 2e manuscript's \notebookqr).
+#     GitHub Pages redirects served from docs/ in THIS repo, so their
+#     destinations stay editable forever after printing.
+https://vijaygwu.github.io/math-powers-ai-2e/ch01
+https://vijaygwu.github.io/math-powers-ai-2e/ch02
+https://vijaygwu.github.io/math-powers-ai-2e/ch03
+https://vijaygwu.github.io/math-powers-ai-2e/ch04
+https://vijaygwu.github.io/math-powers-ai-2e/ch05
+https://vijaygwu.github.io/math-powers-ai-2e/ch06
+https://vijaygwu.github.io/math-powers-ai-2e/ch07
+https://vijaygwu.github.io/math-powers-ai-2e/ch08
+https://vijaygwu.github.io/math-powers-ai-2e/capstone
