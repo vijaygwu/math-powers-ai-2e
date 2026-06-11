@@ -1,0 +1,20 @@
+v = [2 3]
+proj_u(v) = [2.588 0.647]
+residual = [-0.588  2.353]
+Check orthogonality: -0.000000
+
+v1=[1, 2, 3], v2=[2, 4, 6] independent? False
+standard basis e1,e2,e3 independent? True
+
+point [1.5 1.2] in basis B -> [1.06 0.78]
+reconstruction B @ coords = [1.5 1.2]
+
+Gram-Schmidt on v1=(1,1,0), v2=(1,0,1):
+q1 = [0.7071 0.7071 0.    ]
+q2 = [ 0.4082 -0.4082  0.8165]
+<q1, q2> = 0.000000
+
+proj_W([1. 2. 3.]) = [2.3333 0.6667 1.6667]
+residual orthogonal to W? True
+
+king - man + woman ~= queen

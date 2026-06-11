@@ -1,0 +1,24 @@
+Numerical gradient: [6. 8.]
+Analytical gradient: [6.0, 8.0]
+
+Chain rule for y = e^(x^2) at x = 1:
+  dy/du = e^(x^2)   = 2.718282
+  du/dx = 2x        = 2.000000
+  dy/dx = 2x e^(x^2) = 5.436564
+  numerical check   = 5.436564
+
+Sigmoid sigma(x) = 1 / (1 + e^(-x)):
+  sigma(0)  = 0.5000
+  sigma'(0) = sigma(0)(1 - sigma(0)) = 0.2500 (maximum value)
+  sigma'(5) = 0.006648
+
+Vanishing gradients through sigmoid layers:
+  after  1 layers: 0.25^1 = 0.2500000000
+  after  2 layers: 0.25^2 = 0.0625000000
+  after  5 layers: 0.25^5 = 0.0009765625
+  after 10 layers: 0.25^10 = 0.0000009537
+
+Second derivative test at the critical point (0, 0):
+  f(x, y) = x^2 + y^2: eigenvalues [2.00, 2.00] -> minimum
+  f(x, y) = -x^2 - y^2: eigenvalues [-2.00, -2.00] -> maximum
+  f(x, y) = x^2 - y^2: eigenvalues [-2.00, 2.00] -> saddle

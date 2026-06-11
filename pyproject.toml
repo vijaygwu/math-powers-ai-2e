@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mathpowersai"
+version = "2.0.0a1"
+description = "Companion code for The Math That Powers AI, 2nd edition (The AI Engineer's Library, Book 1)"
+authors = [{ name = "Dr. Vijay Raghavan" }]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+capstone = ["scikit-learn>=1.4"]
+dev = ["pytest>=8", "nbmake>=1.5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

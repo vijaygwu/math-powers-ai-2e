@@ -1,0 +1,20 @@
+king-queen similarity: 0.997
+king-apple similarity: 0.107
+Input x (4D):  [ 1.   0.5 -0.3  0.8]
+After layer 1: [0.82 0.1  0.23]
+After layer 2: [0.426 0.107]
+
+Composite W2 @ W1 shape: (2, 4)
+Attention scores:
+[[2 0 1]
+ [0 2 1]
+ [1 1 2]]
+Attention weights:
+[[0.665 0.09  0.245]
+ [0.09  0.665 0.245]
+ [0.212 0.212 0.576]]
+New embeddings:
+[[0.91  0.335 0.665 0.09 ]
+ [0.335 0.91  0.09  0.665]
+ [0.788 0.788 0.212 0.212]]
+king - man + woman ~= queen

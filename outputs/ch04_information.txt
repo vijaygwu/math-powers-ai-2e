@@ -1,0 +1,28 @@
+Self-information:
+Fair coin heads (p=0.5): 1.000 bits
+Fair die six (p=1/6):    2.585 bits
+Certain event (p=1.0):   0.000 bits
+
+Entropy:
+Fair coin (p=0.5): 1.000 bits
+Biased (p=0.9):    0.469 bits
+Certain (p=1.0):   0.000 bits
+Uniform over 8:    3.000 bits
+
+KL divergence:
+KL(p || q) = 0.5310 bits
+KL(q || p) = 0.7370 bits
+
+Binary symmetric channel:
+H(0.1) = 0.469 bits
+Capacity = 1 - H(0.1) = 0.531 bits per symbol
+
+Identity H(p, q) = H(p) + KL(p || q):
+H(p)        = 0.8813 bits
+KL(p || q)  = 0.1187 bits
+H(p, q)     = 1.0000 bits
+H(p) + KL(p || q) = 1.0000 bits (matches: True)
+
+Perplexity:
+Cross-entropy = 0.6931 nats -> perplexity = 2.0000
+Same in bits: 2**1.0000 = 2.0000

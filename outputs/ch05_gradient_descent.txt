@@ -1,0 +1,10 @@
+Gradient descent on f(x, y) = x^2 + 4y^2
+Start: (2.0, 1.0), lr = 0.1, f = 8.00
+Step 1: (1.6, 0.2), f = 2.72
+After 10 iterations: (0.21, 1.0e-07), f = 0.046
+
+Optimizer comparison (per-optimizer default lr, 50 steps):
+  gradient_descent   final f = 0.531435
+  momentum           final f = 0.022347
+  rmsprop            final f = 2.890036
+  adam               final f = 7.415414

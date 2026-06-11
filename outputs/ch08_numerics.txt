@@ -1,0 +1,32 @@
+Softmax with large logits z = [1000, 1001, 999]:
+naive_softmax(z)  = [nan nan nan]
+stable_softmax(z) = [0.245, 0.665, 0.090]
+
+Log-sum-exp trick:
+log_sum_exp([1000, 1001]) = 1001.3133
+log_sum_exp([0.5, 1.0, -0.5]) = 1.604131 (direct: 1.604131)
+
+FP32 summation stall:
+np.float32(2**24) = 16,777,216
+np.float32(2**24) + 1.0 = 16,777,216 (stalled: True)
+Summing 1e8 ones in FP32 naively stalls at 16,777,216.
+
+Kahan (compensated) summation:
+naive sum(1e16 + 1 - 1e16)  = 0.0
+kahan_sum(1e16 + 1 - 1e16)  = 1.0
+
+Machine epsilon (gap between 1 and next float):
+FP64: 2.220446e-16 = 2^-52
+FP32: 1.192093e-07 = 2^-23
+
+Condition number kappa_2 = sigma_max/sigma_min:
+kappa([[1, 1], [1, 1.0001]]) = 4.000e+04
+
+Quadrature for int_0^2 x^2 dx (true value 8/3):
+trapezoid_rule = 4.000000
+simpson_rule   = 2.666667 (8/3 = 2.666667)
+
+NaN-detection hook on naive softmax:
+Failure: NaN in naive_softmax (input: min=9.99e+02, max=1.00e+03)
+Diagnosis: logits ~1000 cause exp() overflow.
+Fix: clip logits or use stable softmax.

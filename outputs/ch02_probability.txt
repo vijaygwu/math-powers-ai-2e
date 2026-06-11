@@ -1,0 +1,25 @@
+=== Bayes' theorem: medical diagnosis ===
+P(disease | positive test) = 0.088
+P(spam | 'free')           = 0.774
+
+=== Gaussian sampling (N(0,1), N(2,1), N(0,0.25)) ===
+Standard: mean=-0.03, std=0.99
+Shifted:  mean=1.92, std=1.01
+Narrow:   mean=0.02, std=0.51
+
+=== Bernoulli MLE: p_hat = k / n ===
+800 of 1000 spam emails contain 'free' -> p_hat = 0.80
+
+=== Variance: MLE (1/n) vs unbiased (1/(n-1)) ===
+n=10 sample: MLE variance      = 1.4079
+n=10 sample: unbiased variance = 1.5643
+
+=== Variance of the sample mean: sigma^2 / n ===
+n=  4: empirical Var(xbar) = 1.0003  (theory sigma^2/n = 1.0000)
+n= 16: empirical Var(xbar) = 0.2493  (theory sigma^2/n = 0.2500)
+n= 64: empirical Var(xbar) = 0.0624  (theory sigma^2/n = 0.0625)
+
+=== Naive Bayes spam classifier ===
+P(spam | doc) = 0.333
+P(ham | doc)  = 0.667
+Prediction: ham

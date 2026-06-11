@@ -1,0 +1,22 @@
+============================================================
+PCA from Scratch: Synthetic (seeded, low-rank + noise)
+============================================================
+Data shape: (500, 30)
+
+Eigendecomposition vs SVD:
+  Eigenvalues match: True
+  Eigenvector matches (first 30): 30/30
+  Max eigenvalue difference: 7.82e-14
+
+Reduced 30 -> 5 dims; variance explained: 99.8%
+Reconstruction MSE (5 PCs): 0.008300
+
+Components needed for variance thresholds:
+   50.0%:   2 components
+   80.0%:   4 components
+   90.0%:   5 components
+   95.0%:   5 components
+   99.0%:   5 components
+
+explained_variance_ratio_ matches sklearn: True
+components_ match sklearn (up to sign): 5/5

@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: pip install -e ".[capstone,dev]"
+      - name: Property tests (the book's mathematical claims)
+        run: pytest -q
+      - name: Regenerate output boxes and diff against committed canon
+        run: |
+          python examples/regenerate_outputs.py
+          git diff --exit-code outputs/
