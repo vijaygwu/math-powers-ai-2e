@@ -301,8 +301,10 @@ def compare_methods(eig_vals1, eig_vecs1, eig_vals2, eig_vecs2,
     ------
     result : dict
         Keys: 'eigenvalues_match' (bool), 'n_compared' (int),
-        'eigenvector_matches' (int), 'max_eigenvalue_diff'
-        (float).
+        'eigenvector_matches' (int),
+        'max_relative_eigenvalue_diff' (float; max |diff| over
+        the leading eigenvalue, so machine-precision agreement
+        reads as ~1e-15 regardless of the data's scale).
     """
     m = min(len(eig_vals1), len(eig_vals2))
     vals1 = np.asarray(eig_vals1)[:m]
@@ -325,8 +327,12 @@ def compare_methods(eig_vals1, eig_vecs1, eig_vals2, eig_vecs2,
                 or np.allclose(v1, -v2, rtol=1e-8, atol=1e-8)):
             matches += 1
 
-    # Show max difference in eigenvalues
-    max_diff = float(np.max(np.abs(vals1 - vals2)))
+    # Max eigenvalue difference, relative to the leading
+    # eigenvalue: an absolute diff is scale-dependent (raw-pixel
+    # data has eigenvalues ~1e5-1e7), but the relative diff sits
+    # at machine epsilon when the two methods agree.
+    scale = max(float(np.max(np.abs(vals1))), 1e-300)
+    max_rel_diff = float(np.max(np.abs(vals1 - vals2)) / scale)
 
     if verbose:
         print(f"Eigenvalues match: {eigenvalue_match}")
@@ -334,13 +340,14 @@ def compare_methods(eig_vals1, eig_vecs1, eig_vals2, eig_vecs2,
             f"Eigenvector matches (first {n_components}): "
             f"{matches}/{n_components}"
         )
-        print(f"Max eigenvalue difference: {max_diff:.2e}")
+        print("Max relative eigenvalue difference: "
+              f"{max_rel_diff:.1e}")
 
     return {
         "eigenvalues_match": eigenvalue_match,
         "n_compared": n_components,
         "eigenvector_matches": matches,
-        "max_eigenvalue_diff": max_diff,
+        "max_relative_eigenvalue_diff": max_rel_diff,
     }
 
 

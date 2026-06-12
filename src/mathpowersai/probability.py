@@ -267,7 +267,15 @@ class NaiveBayesClassifier:
                              "same length")
         if len(documents) == 0:
             raise ValueError("cannot fit on an empty dataset")
-        self.classes = list(set(labels))
+        # Reset learned state so refitting the same instance does not
+        # accumulate the previous fit's vocabulary (which would inflate
+        # the Laplace-smoothing denominator) or stale priors.
+        self.class_priors = {}
+        self.word_probs = {}
+        self.vocabulary = set()
+        # Sorted for a deterministic class order (and therefore
+        # reproducible prediction tie-breaking) across sessions.
+        self.classes = sorted(set(labels))
         n_docs = len(documents)
 
         # Step 1: Estimate prior probabilities P(class) via MLE

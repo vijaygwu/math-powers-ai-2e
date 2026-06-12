@@ -9,6 +9,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, List, Optional, Tuple, Dict
 
+# Floor applied to losses on log-scale plots: log scale silently
+# drops non-positive values, and an exactly-zero loss (a legitimate
+# converged result) would otherwise vanish from the curve.
+LOG_SCALE_FLOOR = 1e-16
+
+
+def _tab10_colors(n: int) -> np.ndarray:
+    """n visually distinct colors from tab10, cycling past 10
+    instead of producing duplicates via linspace interpolation."""
+    return plt.cm.tab10(np.arange(n) % 10)
+
 
 def plot_loss_landscape(
     f: Callable[[np.ndarray], float],
@@ -83,7 +94,9 @@ def plot_loss_landscape(
     contour = ax.contourf(X, Y, Z, levels=levels, cmap=cmap, alpha=0.8)
     ax.contour(X, Y, Z, levels=levels, colors='k', alpha=0.3, linewidths=0.5)
 
-    plt.colorbar(contour, ax=ax, label='Loss')
+    # Bind explicitly to the axes' own figure rather than the
+    # pyplot-global current figure, which may differ.
+    ax.figure.colorbar(contour, ax=ax, label='Loss')
     ax.set_xlabel('$x_1$', fontsize=12)
     ax.set_ylabel('$x_2$', fontsize=12)
     ax.set_title(title, fontsize=14)
@@ -95,7 +108,7 @@ def plot_loss_landscape(
 def plot_optimization_path(
     path: List[np.ndarray],
     ax: Optional[plt.Axes] = None,
-    color: str = 'red',
+    color='red',
     label: str = 'Optimization path',
     marker_size: int = 20,
     line_width: float = 1.5,
@@ -111,8 +124,9 @@ def plot_optimization_path(
         List of 2D parameter values from optimization.
     ax : plt.Axes, optional
         Matplotlib axes to plot on. Creates new figure if None.
-    color : str
-        Color for the path.
+    color : color-like
+        Color for the path: any Matplotlib color spec (name, hex,
+        or RGBA array, as passed by create_comparison_figure).
     label : str
         Label for the legend.
     marker_size : int
@@ -190,25 +204,26 @@ def plot_convergence(
     title : str
         Plot title.
     log_scale : bool
-        Whether to use logarithmic scale for y-axis.
+        Whether to use logarithmic scale for y-axis. Assumes
+        non-negative losses: values below LOG_SCALE_FLOOR
+        (including negatives) are clamped to the floor.
 
     Returns
     -------
     plt.Axes
         The matplotlib axes object.
     """
+    if not paths:
+        raise ValueError("paths must contain at least one optimizer path.")
     if ax is None:
         _, ax = plt.subplots(figsize=(10, 6))
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(paths)))
+    colors = _tab10_colors(len(paths))
 
     for (name, path), color in zip(paths.items(), colors):
         losses = [f(x) for x in path]
         if log_scale:
-            # Log scale silently drops non-positive values; floor
-            # exact zeros (a legitimate converged loss) so the
-            # curve stays visible.
-            losses = list(np.maximum(losses, 1e-16))
+            losses = list(np.maximum(losses, LOG_SCALE_FLOOR))
         ax.plot(losses, label=name, color=color, linewidth=2)
 
     ax.set_xlabel('Iteration', fontsize=12)
@@ -255,6 +270,9 @@ def plot_learning_rate_comparison(
         The matplotlib figure object.
     """
     from .optimizers import gradient_descent
+
+    if not learning_rates:
+        raise ValueError("learning_rates must contain at least one value.")
 
     fig, axes = plt.subplots(1, len(learning_rates), figsize=figsize)
     if len(learning_rates) == 1:
@@ -327,7 +345,9 @@ def plot_gradient_field(
 
     for i in range(resolution):
         for j in range(resolution):
-            grad = grad_fn(np.array([X[i, j], Y[i, j]]))
+            # Reuse the gradient already computed for the shape check.
+            grad = first if (i, j) == (0, 0) else \
+                grad_fn(np.array([X[i, j], Y[i, j]]))
             # Negative gradient points toward minimum
             U[i, j] = -grad[0]
             V[i, j] = -grad[1]
@@ -375,13 +395,16 @@ def create_comparison_figure(
     plt.Figure
         The matplotlib figure object.
     """
+    if not paths:
+        raise ValueError("paths must contain at least one optimizer path.")
+
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
     # Plot loss landscape with all paths
     plot_loss_landscape(f, x_range=x_range, y_range=y_range, ax=ax1,
                         title='Optimizer Trajectories')
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(paths)))
+    colors = _tab10_colors(len(paths))
     for (name, path), color in zip(paths.items(), colors):
         plot_optimization_path(path, ax=ax1, color=color, label=name)
 

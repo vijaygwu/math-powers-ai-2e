@@ -9,6 +9,18 @@ import numpy as np
 from typing import Callable, Dict, List, Optional
 
 
+def _check_common(lr: float, n_steps: int, max_path_len: int) -> None:
+    """Validate the parameters shared by every optimizer."""
+    if lr <= 0:
+        raise ValueError(f"lr must be positive; got {lr}.")
+    if n_steps < 0:
+        raise ValueError(f"n_steps must be non-negative; got {n_steps}.")
+    if max_path_len < 1:
+        raise ValueError(
+            f"max_path_len must be at least 1; got {max_path_len}."
+        )
+
+
 def gradient_descent(
     grad_fn: Callable[[np.ndarray], np.ndarray],
     x_init: np.ndarray,
@@ -47,7 +59,18 @@ def gradient_descent(
     ...     return np.array([2*x[0], 4*x[1]])
     >>> path = gradient_descent(grad_f, np.array([4.0, 3.0]), lr=0.1, n_steps=50)
     >>> print(f"Final: {path[-1]}")
+
+    Notes
+    -----
+    Update rule:
+        x_t = x_{t-1} - lr * grad
+
+    Raises
+    ------
+    ValueError
+        If lr <= 0, n_steps < 0, or max_path_len < 1.
     """
+    _check_common(lr, n_steps, max_path_len)
     x = x_init.copy().astype(float)
     path = [x.copy()]
 
@@ -104,6 +127,7 @@ def sgd(
     List[np.ndarray]
         List of parameter values at each step.
     """
+    _check_common(lr, n_steps, max_path_len)
     if noise_scale < 0:
         raise ValueError("noise_scale must be non-negative; got "
                          f"{noise_scale}.")
@@ -169,6 +193,7 @@ def momentum(
         v_t = beta * v_{t-1} + grad
         x_t = x_{t-1} - lr * v_t
     """
+    _check_common(lr, n_steps, max_path_len)
     if not 0 <= beta < 1:
         raise ValueError(f"beta must be in [0, 1); got {beta}.")
 
@@ -240,11 +265,10 @@ def rmsprop(
         turn a zero gradient into a silent 0/0 NaN that then
         propagates through the whole path.
     """
+    _check_common(lr, n_steps, max_path_len)
     if epsilon <= 0:
         raise ValueError("epsilon must be positive; got "
                          f"{epsilon}.")
-    if lr <= 0:
-        raise ValueError(f"lr must be positive; got {lr}.")
     if not 0 <= beta < 1:
         raise ValueError(f"beta must be in [0, 1); got {beta}.")
 
@@ -328,11 +352,10 @@ def adam(
     Kingma, D. P., & Ba, J. (2014). Adam: A Method for Stochastic Optimization.
     arXiv preprint arXiv:1412.6980.
     """
+    _check_common(lr, n_steps, max_path_len)
     if epsilon <= 0:
         raise ValueError("epsilon must be positive; got "
                          f"{epsilon}.")
-    if lr <= 0:
-        raise ValueError(f"lr must be positive; got {lr}.")
     for name, b in (("beta1", beta1), ("beta2", beta2)):
         if not 0 <= b < 1:
             raise ValueError(f"{name} must be in [0, 1); got {b}.")

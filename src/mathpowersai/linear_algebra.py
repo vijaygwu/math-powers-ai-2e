@@ -59,7 +59,9 @@ def norm(v, p=2):
         ||v||_inf = max_i |v_i|        (max norm)
     """
     v = _as_vector(v, "v")
-    if p is np.inf:
+    # Value test, not identity: float('inf') and math.inf are equal
+    # to np.inf but are different objects.
+    if np.isinf(p):
         return float(np.max(np.abs(v)))
     if p < 1:
         raise ValueError(f"l_p norm requires p >= 1, got p={p}")

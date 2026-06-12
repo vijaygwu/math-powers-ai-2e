@@ -461,6 +461,11 @@ def pca_svd(X, variance=0.95):
     X_centered = X - X.mean(axis=0)
     U, S, Vt = np.linalg.svd(X_centered, full_matrices=False)
     variance_ratio = (S**2) / (S**2).sum()
-    k = int(np.argmax(np.cumsum(variance_ratio) >= variance) + 1)
+    cumulative = np.cumsum(variance_ratio)
+    # Guard against floating-point sums slightly below 1.0: without
+    # this, variance=1.0 finds no True entry and argmax silently
+    # returns 0 (i.e. k=1). Same guard as pca.components_for_variance.
+    cumulative[-1] = max(cumulative[-1], 1.0)
+    k = int(np.argmax(cumulative >= variance) + 1)
     Z_svd = U[:, :k] * S[:k]  # Equivalent to X @ V[:, :k]
     return Z_svd, k, variance_ratio
