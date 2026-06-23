@@ -464,7 +464,7 @@ def pca_svd(X, variance=0.95):
     cumulative = np.cumsum(variance_ratio)
     # Guard against floating-point sums slightly below 1.0: without
     # this, variance=1.0 finds no True entry and argmax silently
-    # returns 0 (i.e. k=1). Same guard as pca.components_for_variance.
+    # returns 0 (i.e. k=1). Same guard as variance_threshold_components.
     cumulative[-1] = max(cumulative[-1], 1.0)
     k = int(np.argmax(cumulative >= variance) + 1)
     Z_svd = U[:, :k] * S[:k]  # Equivalent to X @ V[:, :k]

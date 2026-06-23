@@ -222,10 +222,15 @@ class PCA:
         """
         Compute the covariance matrix from the stored components.
 
+        Note: this reconstructs the covariance from only the
+        *retained* components. When n_components < n_features it is
+        therefore a rank-n_components_ approximation of the full
+        sample covariance, not the exact covariance of the input.
+
         Returns:
         ------
         cov : ndarray of shape (n_features, n_features)
-            Estimated covariance matrix
+            Estimated covariance matrix (rank-n_components_)
 
         Raises:
         ------
