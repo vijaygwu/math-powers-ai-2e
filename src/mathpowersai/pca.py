@@ -137,6 +137,21 @@ class PCA:
 
         return self
 
+    def _check_fitted(self):
+        """Raise a clear error if fit() has not been called yet.
+
+        Without this guard the arithmetic below dereferences
+        mean_/components_ while they are still None, producing a
+        confusing "unsupported operand type(s) for -: float and
+        NoneType" TypeError instead of an actionable message.
+        """
+        if self.components_ is None or self.mean_ is None:
+            raise ValueError(
+                "This PCA instance is not fitted yet. Call fit() "
+                "(or fit_transform()) before using transform(), "
+                "inverse_transform(), or get_covariance()."
+            )
+
     # -- Transform methods --
 
     def transform(self, X):
@@ -152,7 +167,13 @@ class PCA:
         ------
         X_transformed : ndarray of shape (n_samples, n_components)
             Transformed data
+
+        Raises:
+        ------
+        ValueError
+            If called before fit().
         """
+        self._check_fitted()
         X_centered = X - self.mean_
         return X_centered @ self.components_.T
 
@@ -186,7 +207,13 @@ class PCA:
         ------
         X_reconstructed : ndarray of shape (n_samples, n_features)
             Reconstructed data in original space
+
+        Raises:
+        ------
+        ValueError
+            If called before fit().
         """
+        self._check_fitted()
         return X_transformed @ self.components_ + self.mean_
 
     # -- Utility methods --
@@ -199,7 +226,13 @@ class PCA:
         ------
         cov : ndarray of shape (n_features, n_features)
             Estimated covariance matrix
+
+        Raises:
+        ------
+        ValueError
+            If called before fit().
         """
+        self._check_fitted()
         return (
             self.components_.T
             @ np.diag(self.explained_variance_)
