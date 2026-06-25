@@ -146,7 +146,7 @@ def self_attention(V):
     (scores, weights, V_new) with scores = V @ V.T,
     weights = softmax(scores), V_new = weights @ V.
     """
-    V = np.asarray(V)
+    V = np.asarray(V, dtype=float)
     if V.ndim != 2:
         raise ValueError(
             f"V must be a 2-D array of embeddings, got shape "
